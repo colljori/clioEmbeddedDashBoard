@@ -17,32 +17,11 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#include <stdint.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include "stm32f4xx.h"
-#include "time.h"
-#include "it.h"
+#ifndef __UTIL_H
+#define __UTIL_H
 
-int main(void)
-{
-  //printf("Boot success\n");
+void ToggleLed2(void);
+void ResetLed2(void);
+void SetLed2(void);
 
-  /* Activate clock for GPIOA on AHB1 */
-  __attribute__((unused)) __IO uint32_t tmpreg = 0x00U;
-  SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOAEN);
-  /* Delay after an RCC peripheral clock enabling */
-  tmpreg = READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOAEN);
-
-  // GPIO in output mode
-  SET_BIT(GPIOA->MODER,GPIO_MODER_MODE5_0);
-
-  /* Configure system clock */
-  SystemCoreClockUpdate();
-  SysTick_Config(SystemCoreClock);
-
-  while(1)
-  {
-    /* Nothing wait for interrupt */
-  }
-}
+#endif /* __UTIL_H */
