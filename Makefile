@@ -6,7 +6,7 @@
 # target
 ######################################
 TARGET = ClioDashBoard-STM32
-
+BOARD=/media/colljori/NODE_F446RE
 ######################################
 # building variables
 ######################################
@@ -109,6 +109,15 @@ $(BUILD_DIR):
 #######################################
 clean:
 	-rm -fR .dep $(BUILD_DIR)
+
+true_clean: clean
+	-rm /media/colljori/NODE_F446RE/*
+
+#######################################
+# flash target
+#######################################
+flash: $(BUILD_DIR)/$(TARGET).hex
+	st-flash --format ihex write $(BUILD_DIR)/$(TARGET).hex
 
 #######################################
 # dependencies
