@@ -17,16 +17,15 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __TIME_H
-#define __TIME_H
+#ifndef __TEMPLATE_H__
+#define __TEMPLATE_H__
 
-#include <stdint.h>
 
 /* Exported defines ----------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
-void Delay(uint32_t ms);
 
-#endif /* __TIME_H */
+
+#endif /* __TEMPLATE_H__ */
 
 /* END OF FILE / [COLLJORI] --------------------------------------------------*/

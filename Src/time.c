@@ -18,16 +18,38 @@
 */
 
 
+/* Includes ------------------------------------------------------------------*/
 #include <stdint.h>
 #include "stm32f4xx.h"
-
+/* Externs -------------------------------------------------------------------*/
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
 /* Approximate number of cycle during 1ms
- * this is only relevant with default clock configuration */
+* this is only relevant with default clock configuration */
 #define NB_CYLCE_1_MS 1250
+/* Private variable ----------------------------------------------------------*/
+/* Private function prototypes -----------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/
 
-void Delay(uint32_t ms)
-{
-  volatile uint32_t counter, counterOneMs;
-  for(counter=0; counter<ms ; counter++)
-    for(counterOneMs=0; counterOneMs<NB_CYLCE_1_MS ; counterOneMs++);
-}
+/* --------------------------------------------------------------------------
+ * \brief
+ * \param [in]          None
+ * \param [out]         None
+ * -------------------------------------------------------------------------- */
+ void Delay(uint32_t ms)
+ {
+   volatile uint32_t counter, counterOneMs;
+   for(counter=0; counter<ms ; counter++)
+   for(counterOneMs=0; counterOneMs<NB_CYLCE_1_MS ; counterOneMs++);
+ }
+
+/* Private functions ---------------------------------------------------------*/
+
+/* --------------------------------------------------------------------------
+ * \brief
+ * \param [in]          None
+ * \param [out]         None
+ * -------------------------------------------------------------------------- */
+
+/* END OF FILE / [COLLJORI] --------------------------------------------------*/

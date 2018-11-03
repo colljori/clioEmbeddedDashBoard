@@ -20,8 +20,18 @@
 #ifndef __UTIL_H
 #define __UTIL_H
 
+/* Exported defines ----------------------------------------------------------*/
+#define PRINTF(...) VcomPrint(__VA_ARGS__)
+/* Exported types ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/
+void VcomInit(void);
+void VcomPrint(const char * fmt, ...);
+void LedInit(void);
 void ToggleLed2(void);
 void ResetLed2(void);
 void SetLed2(void);
 
+
 #endif /* __UTIL_H */
+
+/* END OF FILE / [COLLJORI] --------------------------------------------------*/
