@@ -110,9 +110,6 @@ $(BUILD_DIR):
 clean:
 	-rm -fR .dep $(BUILD_DIR)
 
-true_clean: clean
-	-rm /media/colljori/NODE_F446RE/*
-
 #######################################
 # flash target
 #######################################
