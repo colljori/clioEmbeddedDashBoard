@@ -41,8 +41,6 @@
 int main(void)
 {
   SystemClockConfig();
-  SystemCoreClockUpdate();
-  SysTick_Config(SystemCoreClock);
 
   LedInit();
   VcomInit();
@@ -54,6 +52,7 @@ int main(void)
 
   PRINTF("~ Boot success\n\r");
   PRINTF("~ System clock started (%ldHz)\n\r",SystemCoreClock);
+  SetLed2();
   while(1);
 }
 
