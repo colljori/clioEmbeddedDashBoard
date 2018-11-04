@@ -108,8 +108,8 @@ void VcomInit(void){
   // Enable the USART by writing the UE bit in USART_CR1 register to 1.
   SET_BIT(USART2->CR1,USART_CR1_UE);
   // Select the desired baud rate using the USART_BRR register.
-  //USART2 BRR 230400 baud, USARTDIV = 4.3125, OVER8=0
-  WRITE_REG(USART2->BRR,0x45);
+  //USART2 BRR 921600 baud, USARTDIV = 2,875, OVER8=0
+  WRITE_REG(USART2->BRR,0x2E);
   // Set the TE bit in USART_CR1 to send an idle frame as first transmission.
   SET_BIT(USART2->CR1,USART_CR1_TE);
 }

@@ -41,10 +41,6 @@
 int main(void)
 {
   SystemClockConfig();
-  SystemCoreClockUpdate();
-  SysTick_Config(SystemCoreClock);
-
-  LedInit();
   VcomInit();
 
   //Clear screen and put cursor to home position
@@ -57,6 +53,7 @@ int main(void)
 
   PRINTF("~ Boot success\n\r");
   PRINTF("~ System clock started (%ldHz)\n\r",SystemCoreClock);
+
   while(1);
 }
 

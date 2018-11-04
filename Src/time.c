@@ -26,7 +26,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Approximate number of cycle during 1ms
 * this is only relevant with default clock configuration */
-#define NB_CYLCE_1_MS 1250
+#define NB_CYLCE_1_MS 14500
 /* Private variable ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
