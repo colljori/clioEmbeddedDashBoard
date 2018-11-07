@@ -43,9 +43,11 @@ void SystemClockConfig(void){
   /* Check that the new number of wait states is taken into account to access the Flash
   memory by reading the FLASH_ACR register */
   while((READ_REG(FLASH->ACR) & FLASH_ACR_LATENCY_Msk) != FLASH_ACR_LATENCY_5WS);
-  /* Set AHB prescaller to 2 : 168MHz */
+  /* Set AHB prescaller to 1 : 168MHz */
   MODIFY_REG(RCC->CFGR,RCC_CFGR_HPRE_Msk, RCC_CFGR_HPRE_DIV1);
-  /* Set APB1 prescaller to 4 to not get over45MHz on this bus (42MHz) */
+  /* Set APB2 prescaller to 2 to not get over 90MHz on this bus (so 84MHz) */
+  MODIFY_REG(RCC->CFGR,RCC_CFGR_PPRE2_Msk, RCC_CFGR_PPRE2_DIV2);
+  /* Set APB1 prescaller to 4 to not get over 45MHz on this bus (so 42MHz) */
   MODIFY_REG(RCC->CFGR,RCC_CFGR_PPRE1_Msk, RCC_CFGR_PPRE1_DIV4);
   /* PLL configuration for full speed without overrun, 168MHz
      PLL output frequency = input frequency * N / (P*M) */

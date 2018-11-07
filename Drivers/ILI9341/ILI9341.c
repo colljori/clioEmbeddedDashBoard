@@ -17,51 +17,23 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-
-
 /* Includes ------------------------------------------------------------------*/
-/* System */
-#include <stdlib.h>
-#include "stm32f4xx.h"
-/* External peripherals */
-#include "ILI9341.h"
-/* Utilities */
-#include "time.h"
-#include "it.h"
-#include "clock.h"
-#include "util.h"
-
 /* Externs -------------------------------------------------------------------*/
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private variable ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/
 
 /* --------------------------------------------------------------------------
-* \brief main function of the project
-*
-*  it's been call after startup by startup_stm32f446xx
-* -------------------------------------------------------------------------- */
-int main(void)
-{
-  SystemClockConfig();
-  VcomInit();
 
-  //Clear screen and put cursor to home position
-  PRINTF("'\033[2J");
-  PRINTF("\033[H\n");
-
-  PRINTF("{{}}#######################{{}}\n\r");
-  PRINTF("    CLIO EXTENDED DASHBOARD\n\r");
-  PRINTF("{{}}#######################{{}}\n\r\n");
-
-  PRINTF("~ Boot success\n\r");
-  PRINTF("~ System clock started (%ldHz)\n\r",SystemCoreClock);
-
-  while(1);
+ * \brief
+ * \param [in]          None
+ * \param [out]         None
+ * -------------------------------------------------------------------------- */
+void ILI9431Init(void){
 }
-
 
 /* Private functions ---------------------------------------------------------*/
 
