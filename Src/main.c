@@ -37,7 +37,6 @@
 /* Private variable ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-
 /* --------------------------------------------------------------------------
 * \brief main function of the project
 *
@@ -58,6 +57,10 @@ int main(void)
 
   PRINTF("~ Boot success\n\r");
   PRINTF("~ System clock started (%ldHz)\n\r",SystemCoreClock);
+
+  PRINTF("~ Start ILI9342 initialization...\n\r",SystemCoreClock);
+  ILI9431_Init();
+  PRINTF("~ Done\n\r");
 
   while(1);
 }

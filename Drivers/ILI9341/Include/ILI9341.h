@@ -17,15 +17,49 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __TEMPLATE_H__
-#define __TEMPLATE_H__
+#ifndef __ILI9341_H__
+#define __ILI9341_H__
 
 
 /* Exported defines ----------------------------------------------------------*/
+
+/* LCD settings */
+#define ILI9341_WIDTH        240
+#define ILI9341_HEIGHT       320
+#define ILI9341_PIXEL        76800
+
+/* Colors */
+#define ILI9341_COLOR_WHITE			0xFFFF
+#define ILI9341_COLOR_BLACK			0x0000
+#define ILI9341_COLOR_RED       0xF800
+#define ILI9341_COLOR_GREEN			0x07E0
+#define ILI9341_COLOR_GREEN2		0xB723
+#define ILI9341_COLOR_BLUE			0x001F
+#define ILI9341_COLOR_BLUE2			0x051D
+#define ILI9341_COLOR_YELLOW		0xFFE0
+#define ILI9341_COLOR_ORANGE		0xFBE4
+#define ILI9341_COLOR_CYAN			0x07FF
+#define ILI9341_COLOR_MAGENTA		0xA254
+#define ILI9341_COLOR_GRAY			0x7BEF
+#define ILI9341_COLOR_BROWN			0xBBCA
+
+#define ILI9341_COLOR_BLUE_POS	0
+#define ILI9341_COLOR_GREEN_POS	6
+#define ILI9341_COLOR_RED_POS  	12
+
+#define ILI9341_COLOR_BLUE_MSK	ILI9341_COLOR_BLUE
+#define ILI9341_COLOR_GREEN_MSK	ILI9341_COLOR_GREEN
+#define ILI9341_COLOR_RED_MSK  	ILI9341_COLOR_RED
+
+
 /* Exported types ------------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
-void ILI9431Init(void);
+void ILI9431_Init(void);
+void ILI9341_DisplayOn(void);
+void ILI9341_DisplayOff(void);
+void ILI9341_DrawPixel(uint16_t x, uint16_t y, uint32_t color);
 
-#endif /* __TEMPLATE_H__ */
+
+#endif /* __ILI9341_H__ */
 
 /* END OF FILE / [COLLJORI] --------------------------------------------------*/
