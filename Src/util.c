@@ -20,6 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include <stdio.h>
+#include <string.h>
 #include <stdarg.h>
 #include "stm32f4xx.h"
 #include "util.h"
@@ -30,6 +31,7 @@
 /* Private variable ----------------------------------------------------------*/
 char printBuffer[PRINT_MAX_SIZE];
 /* Private function prototypes -----------------------------------------------*/
+void VcomSend(char* buffer);
 /* Private variables ---------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
 
@@ -118,17 +120,47 @@ void VcomInit(void){
  * \param [in]          None
  * \param [out]         None
  * -------------------------------------------------------------------------- */
-void VcomPrint(const char * fmt, ...){
+void LogPrint( const char * fmt, ...){
   va_list argp;
   va_start(argp,fmt);
 
   vsprintf(printBuffer, fmt, argp);
 
-  for(int i=0; printBuffer[i]!='\0'; i++){
-    WRITE_REG(USART2->DR, printBuffer[i]);
+  VcomSend(printBuffer);
+  va_end(argp);
+}
+
+
+/* --------------------------------------------------------------------------
+ * \brief
+ * \param [in]          None
+ * \param [out]         None
+ * -------------------------------------------------------------------------- */
+void DbgPrint( const char * file_name,
+               int          line_number,
+               const char * function_name,
+               const char * fmt, ...){
+  va_list argp;
+  va_start(argp,fmt);
+
+  sprintf(printBuffer,"%s:%d (%s) ~ ",file_name,line_number,function_name);
+  vsprintf(printBuffer + strlen(printBuffer), fmt, argp);
+
+  VcomSend(printBuffer);
+  va_end(argp);
+}
+
+
+/* --------------------------------------------------------------------------
+ * \brief
+ * \param [in]          None
+ * \param [out]         None
+ * -------------------------------------------------------------------------- */
+void VcomSend(char * buffer){
+  for(int i=0; buffer[i]!='\0'; i++){
+    WRITE_REG(USART2->DR, buffer[i]);
     while(READ_BIT(USART2->SR,USART_SR_TXE) == RESET);
   }
-  va_end(argp);
 }
 
 

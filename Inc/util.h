@@ -21,11 +21,19 @@
 #define __UTIL_H
 
 /* Exported defines ----------------------------------------------------------*/
-#define PRINTF(...) VcomPrint(__VA_ARGS__)
+#define DBG_PRINTF(...) DbgPrint(__FILE__,__LINE__,__PRETTY_FUNCTION__,__VA_ARGS__)
+#define PRINTF(...) LogPrint(__VA_ARGS__)
 /* Exported types ------------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
 void VcomInit(void);
-void VcomPrint(const char * fmt, ...);
+
+void DbgPrint(const char * file_name,
+              int          line_number,
+              const char * function_name,
+              const char * fmt, ...);
+
+void LogPrint(const char * fmt, ...);
+
 void LedInit(void);
 void ToggleLed2(void);
 void ResetLed2(void);
