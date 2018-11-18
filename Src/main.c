@@ -62,9 +62,40 @@ int main(void)
   ILI9431_Init();
   PRINTF("~ Done\n\r");
 
-  while(1);
-}
+  uint16_t color=ILI9341_COLOR_BLACK, x, y=0;
+  uint16_t red=0, green=0, blue=255;
 
+  while(1){
+
+    for (;   red<255;   red++ , blue-- ){
+      color=ILI9341_COLOR(red, green, blue);
+      PRINTF("r:%d g:%d b:%d (%.4x)\n\r",red,green,blue,color);
+      y++;
+      y%=ILI9341_HEIGHT;
+      for(x=0; x<ILI9341_WIDTH; x++){
+        ILI9341_DrawPixel(x, y, color);
+      }
+    }
+    for (; green<255;  green++, red-- ){
+      color=ILI9341_COLOR(red, green, blue);
+      PRINTF("r:%d g:%d b:%d (%.4x)\n\r",red,green,blue,color);
+      y++;
+      y%=ILI9341_HEIGHT;
+      for(x=0; x<ILI9341_WIDTH; x++){
+        ILI9341_DrawPixel(x, y, color);
+      }
+    }
+    for (;   blue<255; blue++,  green-- ){
+      color=ILI9341_COLOR(red, green, blue);
+      PRINTF("r:%d g:%d b:%d (%.4x)\n\r",red,green,blue,color);
+      y++;
+      y%=ILI9341_HEIGHT;
+      for(x=0; x<ILI9341_WIDTH; x++){
+        ILI9341_DrawPixel(x, y, color);
+      }
+    }
+  }
+}
 
 /* Private functions ---------------------------------------------------------*/
 

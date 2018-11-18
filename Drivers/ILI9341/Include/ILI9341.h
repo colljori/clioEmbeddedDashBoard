@@ -51,6 +51,7 @@
 #define ILI9341_COLOR_GREEN_MSK	ILI9341_COLOR_GREEN
 #define ILI9341_COLOR_RED_MSK  	ILI9341_COLOR_RED
 
+#define ILI9341_COLOR(_r,_g,_b) ((((_r)&0xF8)<<8)|(((_g)&0xFC)<<3)|((_b)>>3))
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
