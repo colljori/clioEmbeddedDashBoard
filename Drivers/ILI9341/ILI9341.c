@@ -27,7 +27,7 @@
 #include "util.h"
 #include "time.h"
 #include "gfxfont.h"
-#include "FreeSans9pt7b.h"
+#include "fonts.h"
 /* Externs -------------------------------------------------------------------*/
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
