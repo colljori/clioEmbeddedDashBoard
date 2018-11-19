@@ -64,12 +64,8 @@ int main(void)
 
   ILI9341_FillScreen(ILI9341_COLOR_BLACK);
   ILI9341_DrawFillRectangle(35, 35, 65, 90, ILI9341_COLOR_ORANGE);
-
-  ILI9341_drawChar(12, 12, 'J', ILI9341_COLOR_WHITE,1);
-  ILI9341_drawChar(22, 22, 'o', ILI9341_COLOR_WHITE,1);
-  ILI9341_drawChar(32, 32, 'r', ILI9341_COLOR_WHITE,1);
-  ILI9341_drawChar(42, 42, 'i', ILI9341_COLOR_WHITE,1);
-  ILI9341_drawChar(52, 52, 's', ILI9341_COLOR_WHITE,1);
+  ILI9341_FillScreen(ILI9341_COLOR_BLUE);
+  ILI9341_Print(12,12,"Jouris",ILI9341_COLOR_WHITE,1);
 
   while(1){
   }

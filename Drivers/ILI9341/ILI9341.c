@@ -246,6 +246,19 @@ void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uin
   }
 }
 
+
+/* --------------------------------------------------------------------------
+ * \brief
+ * \param [in]          None
+ * \param [out]         None
+ * -------------------------------------------------------------------------- */
+void ILI9341_Print(uint16_t x, uint16_t y, char* string, uint32_t color, uint8_t size) {
+  for(int c=0 ; string[c]!='\0' ; c++){
+    ILI9341_drawChar(x+(c*8), y, string[c], color, size);
+  }
+}
+
+
 /* --------------------------------------------------------------------------
  * \brief
  * \param [in]          None
