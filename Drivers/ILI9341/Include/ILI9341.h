@@ -61,7 +61,7 @@ void ILI9341_DisplayOff(void);
 void ILI9341_DrawPixel(uint16_t x, uint16_t y, uint32_t color);
 void ILI9341_DrawFillRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint32_t color);
 void ILI9341_FillScreen(uint32_t color);
-void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color);
+void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint8_t size);
 
 
 #endif /* __ILI9341_H__ */

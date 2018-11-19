@@ -26,7 +26,8 @@
 
 #include "util.h"
 #include "time.h"
-#include "defaultFont.h"
+#include "gfxfont.h"
+#include "FreeSans9pt7b.h"
 /* Externs -------------------------------------------------------------------*/
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -120,6 +121,7 @@
 #define ILI9341_CMD_PRC					    0xF7
 
 /* Private variable ----------------------------------------------------------*/
+const GFXfont* gfxFont = &FreeSans9pt7b;
 /* Private function prototypes -----------------------------------------------*/
 void ILI9341_InitLCD(void);
 void ILI9341_SendCommand(uint8_t data);
@@ -196,13 +198,50 @@ void ILI9341_DisplayOff(void) {
  *   \param    bg 16-bit 5-6-5 Color to fill background with (if same as color, no background)
  *   \param    size  Font magnification level, 1 is 'original' size
  * -------------------------------------------------------------------------- */
-void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color) {
-  for(int8_t i=0; i<5; i++ ) { // Char bitmap = 5 columns
-    uint8_t line = default_font[c * 5 + i];
-    for(int8_t j=0; j<8; j++, line >>= 1) {
-      if(line & 1) {
-        ILI9341_DrawPixel(x+i, y+j, color);
+void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint8_t size) {
+  // Character is assumed previously filtered by write() to eliminate
+  // newlines, returns, non-printable characters, etc.  Calling
+  // drawChar() directly with 'bad' characters of font may cause mayhem!
+  c -=                  gfxFont->first;
+  GFXglyph *glyph   = &(gfxFont->glyph[(uint32_t)c]);
+  uint8_t  *bitmap  =   gfxFont->bitmap;
+
+  uint16_t bitmapOffset = glyph->bitmapOffset;
+  uint8_t  width        = glyph->width,
+           height       = glyph->height;
+  int8_t   xOffset      = glyph->xOffset,
+           yOffset      = glyph->yOffset;
+  uint8_t  xx, yy, bits = 0,
+                    bit = 0;
+  int16_t     xOffset16 = 0,
+              yOffset16 = 0;
+  // avoid overflow when size magnification of char
+  if(size > 1) {
+    xOffset16 = xOffset;
+    yOffset16 = yOffset;
+  }
+  // NOTE: THERE IS NO 'BACKGROUND' COLOR OPTION ON CUSTOM FONTS.
+  // THIS IS ON PURPOSE AND BY DESIGN.  The background color feature
+  // has typically been used with the 'classic' font to overwrite old
+  // screen contents with new data.  This ONLY works because the
+  // characters are a uniform size; it's not a sensible thing to do with
+  // proportionally-spaced fonts with glyphs of varying sizes (and that
+  // may overlap).
+  for(yy=0; yy<height; yy++) {
+    for(xx=0; xx<width; xx++) {
+      if(!(bit++ & 7)) {
+        bits = bitmap[bitmapOffset++];
       }
+      if(bits & 0x80) {
+        if(size == 1) {
+          ILI9341_DrawPixel(x+xOffset+xx, y+yOffset+yy, color);
+        } else {
+          // TODO implement size magnification
+          //         writeFillRect(x+(xOffset16+xx)*size, y+(yOffset16+yy)*size,
+          //        size, size, color);
+        }
+      }
+      bits <<= 1;
     }
   }
 }
