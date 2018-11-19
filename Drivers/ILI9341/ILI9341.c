@@ -196,6 +196,23 @@ void ILI9341_DrawPixel(uint16_t x, uint16_t y, uint32_t color) {
 }
 
 
+/* --------------------------------------------------------------------------
+ * \brief
+ * \param [in]          None
+ * \param [out]         None
+ * -------------------------------------------------------------------------- */
+void ILI9341_DrawFillRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint32_t color) {
+  uint32_t nb_pixel = ((x2-x1)+1)*((y2-y1)+1)-1;
+  DBG_PRINTF("nb_pixel:%d\n\r",nb_pixel);
+	ILI9341_SetCursorPosition(x1, y1, x2, y2);
+	ILI9341_SendCommand(ILI9341_CMD_RAMWR);
+  for(int i=0 ; i <nb_pixel; i++){
+    ILI9341_SendData(color >> 8);
+    ILI9341_SendData(color & 0xFF);
+  }
+}
+
+
 /* Private functions ---------------------------------------------------------*/
 
 
