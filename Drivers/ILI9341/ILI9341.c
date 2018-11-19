@@ -67,48 +67,49 @@
 #define ILI9341_CMD_RDMODE          0x0A
 #define ILI9341_CMD_RDMADCTL        0x0B
 #define ILI9341_CMD_RDPIXFMT        0x0C
-#define ILI9341_CMD_RDIMGFMT        0x0D      
+#define ILI9341_CMD_RDIMGFMT        0x0D
 #define ILI9341_CMD_RDSELFDIAG      0x0F
 
-#define ILI9341_CMD_INVOFF          0x20      
-#define ILI9341_CMD_INVON           0x21      
-#define ILI9341_CMD_GAMMASET        0x26     
-#define ILI9341_CMD_DISPOFF         0x28      
-#define ILI9341_CMD_DISPON          0x29      
+#define ILI9341_CMD_INVOFF          0x20
+#define ILI9341_CMD_INVON           0x21
+#define ILI9341_CMD_GAMMASET        0x26
+#define ILI9341_CMD_DISPOFF         0x28
+#define ILI9341_CMD_DISPON          0x29
 
-#define ILI9341_CMD_CASET           0x2A      
-#define ILI9341_CMD_PASET           0x2B      
-#define ILI9341_CMD_RAMWR           0x2C      
-#define ILI9341_CMD_RAMRD           0x2E      
+#define ILI9341_CMD_CASET           0x2A
+#define ILI9341_CMD_PASET           0x2B
+#define ILI9341_CMD_RAMWR           0x2C
+#define ILI9341_CMD_RAMRD           0x2E
 
-#define ILI9341_CMD_PTLAR           0x30     
-#define ILI9341_CMD_MADCTL          0x36     
-#define ILI9341_CMD_VSCRSADD        0x37     
-#define ILI9341_CMD_PIXFMT          0x3A     
+#define ILI9341_CMD_PTLAR           0x30
+#define ILI9341_CMD_MADCTL          0x36
+#define ILI9341_CMD_VSCRSADD        0x37
+#define ILI9341_CMD_PIXFMT          0x3A
+#define ILI9341_CMD_RAMWR_CONT      0x3C
 
-#define ILI9341_CMD_FRMCTR1         0xB1      
-#define ILI9341_CMD_FRMCTR2         0xB2      
-#define ILI9341_CMD_FRMCTR3         0xB3      
-#define ILI9341_CMD_INVCTR          0xB4      
-#define ILI9341_CMD_DFUNCTR         0xB6      
+#define ILI9341_CMD_FRMCTR1         0xB1
+#define ILI9341_CMD_FRMCTR2         0xB2
+#define ILI9341_CMD_FRMCTR3         0xB3
+#define ILI9341_CMD_INVCTR          0xB4
+#define ILI9341_CMD_DFUNCTR         0xB6
 
-#define ILI9341_CMD_PWCTR1          0xC0      
-#define ILI9341_CMD_PWCTR2          0xC1      
-#define ILI9341_CMD_PWCTR3          0xC2      
-#define ILI9341_CMD_PWCTR4          0xC3      
-#define ILI9341_CMD_PWCTR5          0xC4      
-#define ILI9341_CMD_VMCTR1          0xC5      
-#define ILI9341_CMD_VMCTR2          0xC7      
+#define ILI9341_CMD_PWCTR1          0xC0
+#define ILI9341_CMD_PWCTR2          0xC1
+#define ILI9341_CMD_PWCTR3          0xC2
+#define ILI9341_CMD_PWCTR4          0xC3
+#define ILI9341_CMD_PWCTR5          0xC4
+#define ILI9341_CMD_VMCTR1          0xC5
+#define ILI9341_CMD_VMCTR2          0xC7
 
-#define ILI9341_CMD_POWERA 	        0xCB      
-#define ILI9341_CMD_POWERB 	        0xCF      
+#define ILI9341_CMD_POWERA 	        0xCB
+#define ILI9341_CMD_POWERB 	        0xCF
 
-#define ILI9341_CMD_RDID1           0xDA      
-#define ILI9341_CMD_RDID2           0xDB      
-#define ILI9341_CMD_RDID3           0xDC      
-#define ILI9341_CMD_RDID4           0xDD      
+#define ILI9341_CMD_RDID1           0xDA
+#define ILI9341_CMD_RDID2           0xDB
+#define ILI9341_CMD_RDID3           0xDC
+#define ILI9341_CMD_RDID4           0xDD
 
-#define ILI9341_CMD_GMCTRP1         0xE0      
+#define ILI9341_CMD_GMCTRP1         0xE0
 #define ILI9341_CMD_GMCTRN1         0xE1
 #define ILI9341_CMD_DTCA				    0xE8
 #define ILI9341_CMD_DTCB				    0xEA
@@ -207,9 +208,19 @@ void ILI9341_DrawFillRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y
 	ILI9341_SetCursorPosition(x1, y1, x2, y2);
 	ILI9341_SendCommand(ILI9341_CMD_RAMWR);
   for(int i=0 ; i <nb_pixel; i++){
-    ILI9341_SendData(color >> 8);
+  ILI9341_SendData(color >> 8);
     ILI9341_SendData(color & 0xFF);
   }
+}
+
+
+/* --------------------------------------------------------------------------
+ * \brief
+ * \param [in]          None
+ * \param [out]         None
+ * -------------------------------------------------------------------------- */
+void ILI9341_FillScreen(uint32_t color) {
+  ILI9341_DrawFillRectangle(0, 0, ILI9341_WIDTH, ILI9341_HEIGHT, color); 
 }
 
 

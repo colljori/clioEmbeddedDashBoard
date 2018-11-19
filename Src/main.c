@@ -62,8 +62,9 @@ int main(void)
   ILI9431_Init();
   PRINTF("~ Done\n\r");
 
+  ILI9341_FillScreen(ILI9341_COLOR_BLACK);
   ILI9341_DrawFillRectangle(35, 35, 65, 90, ILI9341_COLOR_ORANGE);
-  
+
   while(1){
  }
 }
