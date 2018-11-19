@@ -26,6 +26,7 @@
 
 #include "util.h"
 #include "time.h"
+#include "defaultFont.h"
 /* Externs -------------------------------------------------------------------*/
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -127,6 +128,7 @@ void ILI9341_SetCursorPosition(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y
 /* Private variables ---------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
 
+//########################CONTROL
 /* --------------------------------------------------------------------------
  * \brief
  * \param [in]          None
@@ -182,6 +184,28 @@ void ILI9341_DisplayOff(void) {
 	ILI9341_SendCommand(ILI9341_CMD_DISPOFF);
 }
 
+
+//########################DRAW
+
+/* --------------------------------------------------------------------------
+ *  \brief   Draw a single character
+ *   \param    x   Bottom left corner x coordinate
+ *   \param    y   Bottom left corner y coordinate
+ *   \param    c   The 8-bit font-indexed character (likely ascii)
+ *   \param    color 16-bit 5-6-5 Color to draw chraracter with
+ *   \param    bg 16-bit 5-6-5 Color to fill background with (if same as color, no background)
+ *   \param    size  Font magnification level, 1 is 'original' size
+ * -------------------------------------------------------------------------- */
+void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color) {
+  for(int8_t i=0; i<5; i++ ) { // Char bitmap = 5 columns
+    uint8_t line = default_font[c * 5 + i];
+    for(int8_t j=0; j<8; j++, line >>= 1) {
+      if(line & 1) {
+        ILI9341_DrawPixel(x+i, y+j, color);
+      }
+    }
+  }
+}
 
 /* --------------------------------------------------------------------------
  * \brief
