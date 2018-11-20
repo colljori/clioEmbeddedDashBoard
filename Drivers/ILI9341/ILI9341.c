@@ -122,6 +122,8 @@
 
 /* Private variable ----------------------------------------------------------*/
 const GFXfont* gfxFont = &FreeSans9pt7b;
+ILI9341_Orientation_T orientation = PORTRAIT;
+
 /* Private function prototypes -----------------------------------------------*/
 void ILI9341_InitLCD(void);
 void ILI9341_SendCommand(uint8_t data);
@@ -184,6 +186,16 @@ void ILI9341_DisplayOn(void) {
  * -------------------------------------------------------------------------- */
 void ILI9341_DisplayOff(void) {
 	ILI9341_SendCommand(ILI9341_CMD_DISPOFF);
+}
+
+
+/* --------------------------------------------------------------------------
+ * \brief
+ * \param [in]          None
+ * \param [out]         None
+ * -------------------------------------------------------------------------- */
+void ILI9341_SetOrientation(ILI9341_Orientation_T new_orientation) {
+  orientation = new_orientation;
 }
 
 
@@ -254,7 +266,28 @@ void ILI9341_Print(uint16_t x, uint16_t y, char* string, uint32_t color, uint8_t
  * \param [out]         None
  * -------------------------------------------------------------------------- */
 void ILI9341_DrawPixel(uint16_t x, uint16_t y, uint32_t color) {
-	ILI9341_SetCursorPosition(x, y, x, y);
+  int16_t temp;
+
+  switch(orientation) {
+    case PORTRAIT:
+    break;
+    case LANDSCAPE:
+    temp = x;
+    x = ILI9341_WIDTH  - 1 - y;
+    y = temp;
+    break;
+    case PORTRAIT_REVERSE:
+    x = ILI9341_WIDTH  - 1 - x;
+    y = ILI9341_HEIGHT - 1 - y;
+    break;
+    case LANDSCAPE_REVERSE:
+    temp = x;
+    x = y;
+    y = ILI9341_HEIGHT - 1 - temp;
+    break;
+  }
+
+	ILI9341_SetCursorPosition(x, y, x , y);
 
 	ILI9341_SendCommand(ILI9341_CMD_RAMWR);
 	ILI9341_SendData(color >> 8);

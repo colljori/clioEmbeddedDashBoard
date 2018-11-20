@@ -54,10 +54,19 @@
 #define ILI9341_COLOR(_r,_g,_b) ((((_r)&0xF8)<<8)|(((_g)&0xFC)<<3)|((_b)>>3))
 
 /* Exported types ------------------------------------------------------------*/
+typedef enum ILI9341_Orientation_E{
+  LANDSCAPE,
+  PORTRAIT,
+  PORTRAIT_REVERSE,
+  LANDSCAPE_REVERSE,
+} ILI9341_Orientation_T;
+
+
 /* Exported functions --------------------------------------------------------*/
 void ILI9431_Init(void);
 void ILI9341_DisplayOn(void);
 void ILI9341_DisplayOff(void);
+void ILI9341_SetOrientation(ILI9341_Orientation_T new_orientation);
 void ILI9341_DrawPixel(uint16_t x, uint16_t y, uint32_t color);
 void ILI9341_DrawFillRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint32_t color);
 void ILI9341_FillScreen(uint32_t color);

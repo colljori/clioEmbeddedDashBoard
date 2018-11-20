@@ -62,10 +62,10 @@ int main(void)
   ILI9431_Init();
   PRINTF("~ Done\n\r");
 
-  ILI9341_FillScreen(ILI9341_COLOR_BLACK);
-  ILI9341_DrawFillRectangle(35, 35, 65, 90, ILI9341_COLOR_ORANGE);
   ILI9341_FillScreen(ILI9341_COLOR_BLUE);
-  ILI9341_Print(12,12,"Jouris",ILI9341_COLOR_WHITE,1);
+  ILI9341_Print(20,120,"Jouris",ILI9341_COLOR_WHITE,1);
+  ILI9341_SetOrientation((ILI9341_Orientation_T)LANDSCAPE);
+  ILI9341_Print(160,120,"NOICE",ILI9341_COLOR_WHITE,1);
 
   while(1){
   }
