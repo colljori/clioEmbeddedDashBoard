@@ -190,71 +190,60 @@ void ILI9341_DisplayOff(void) {
 //########################DRAW
 
 /* --------------------------------------------------------------------------
- *  \brief   Draw a single character
+ *  \brief   Print on ILI9341 screen
  *   \param    x   Bottom left corner x coordinate
  *   \param    y   Bottom left corner y coordinate
- *   \param    c   The 8-bit font-indexed character (likely ascii)
+ *   \param    String string of char to print
  *   \param    color 16-bit 5-6-5 Color to draw chraracter with
- *   \param    bg 16-bit 5-6-5 Color to fill background with (if same as color, no background)
  *   \param    size  Font magnification level, 1 is 'original' size
  * -------------------------------------------------------------------------- */
-void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint8_t size) {
-  // Character is assumed previously filtered by write() to eliminate
-  // newlines, returns, non-printable characters, etc.  Calling
-  // drawChar() directly with 'bad' characters of font may cause mayhem!
-  c -=                  gfxFont->first;
-  GFXglyph *glyph   = &(gfxFont->glyph[(uint32_t)c]);
-  uint8_t  *bitmap  =   gfxFont->bitmap;
-
-  uint16_t bitmapOffset = glyph->bitmapOffset;
-  uint8_t  width        = glyph->width,
-           height       = glyph->height;
-  int8_t   xOffset      = glyph->xOffset,
-           yOffset      = glyph->yOffset;
-  uint8_t  xx, yy, bits = 0,
-                    bit = 0;
-  int16_t     xOffset16 = 0,
-              yOffset16 = 0;
-  // avoid overflow when size magnification of char
-  if(size > 1) {
-    xOffset16 = xOffset;
-    yOffset16 = yOffset;
-  }
-  // NOTE: THERE IS NO 'BACKGROUND' COLOR OPTION ON CUSTOM FONTS.
-  // THIS IS ON PURPOSE AND BY DESIGN.  The background color feature
-  // has typically been used with the 'classic' font to overwrite old
-  // screen contents with new data.  This ONLY works because the
-  // characters are a uniform size; it's not a sensible thing to do with
-  // proportionally-spaced fonts with glyphs of varying sizes (and that
-  // may overlap).
-  for(yy=0; yy<height; yy++) {
-    for(xx=0; xx<width; xx++) {
-      if(!(bit++ & 7)) {
-        bits = bitmap[bitmapOffset++];
-      }
-      if(bits & 0x80) {
-        if(size == 1) {
-          ILI9341_DrawPixel(x+xOffset+xx, y+yOffset+yy, color);
-        } else {
-          // TODO implement size magnification
-          //         writeFillRect(x+(xOffset16+xx)*size, y+(yOffset16+yy)*size,
-          //        size, size, color);
-        }
-      }
-      bits <<= 1;
-    }
-  }
-}
-
-
-/* --------------------------------------------------------------------------
- * \brief
- * \param [in]          None
- * \param [out]         None
- * -------------------------------------------------------------------------- */
 void ILI9341_Print(uint16_t x, uint16_t y, char* string, uint32_t color, uint8_t size) {
-  for(int c=0 ; string[c]!='\0' ; c++){
-    ILI9341_drawChar(x+(c*8), y, string[c], color, size);
+  char c;
+  for(int i=0 ; (c = string[i]) !='\0' ; i++){
+    c -=                  gfxFont->first;
+    GFXglyph *glyph   = &(gfxFont->glyph[(uint32_t)c]);
+    uint8_t  *bitmap  =   gfxFont->bitmap;
+
+    uint16_t bitmapOffset = glyph->bitmapOffset;
+    uint8_t  width        = glyph->width,
+             height       = glyph->height,
+             xAdvance     = glyph->xAdvance;
+    int8_t   xOffset      = glyph->xOffset,
+             yOffset      = glyph->yOffset;
+    uint8_t  xx, yy, bits = 0,
+                      bit = 0;
+    int16_t     xOffset16 = 0,
+                yOffset16 = 0;
+    // avoid overflow when size magnification of char
+    if(size > 1) {
+      xOffset16 = xOffset;
+      yOffset16 = yOffset;
+    }
+    // NOTE: THERE IS NO 'BACKGROUND' COLOR OPTION ON CUSTOM FONTS.
+    // THIS IS ON PURPOSE AND BY DESIGN.  The background color feature
+    // has typically been used with the 'classic' font to overwrite old
+    // screen contents with new data.  This ONLY works because the
+    // characters are a uniform size; it's not a sensible thing to do with
+    // proportionally-spaced fonts with glyphs of varying sizes (and that
+    // may overlap).
+    for(yy=0; yy<height; yy++) {
+      for(xx=0; xx<width; xx++) {
+        if(!(bit++ & 7)) {
+          bits = bitmap[bitmapOffset++];
+        }
+        if(bits & 0x80) {
+          if(size == 1) {
+            ILI9341_DrawPixel(x+xOffset+xx, y+yOffset+yy, color);
+          } else {
+            ILI9341_DrawFillRectangle(x+(xOffset16+xx)*size, y+(yOffset16+yy)*size,
+            x+(xOffset16+xx+1)*size, y+(yOffset16+yy+1)*size, color);
+          }
+        }
+        bits <<= 1;
+      }
+    }
+    DBG_PRINTF("width:%d height:%d\n\r",width, height);
+    x+=(xAdvance)*size;
   }
 }
 
@@ -296,7 +285,7 @@ void ILI9341_DrawFillRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y
  * \param [out]         None
  * -------------------------------------------------------------------------- */
 void ILI9341_FillScreen(uint32_t color) {
-  ILI9341_DrawFillRectangle(0, 0, ILI9341_WIDTH, ILI9341_HEIGHT, color); 
+  ILI9341_DrawFillRectangle(0, 0, ILI9341_WIDTH, ILI9341_HEIGHT, color);
 }
 
 
