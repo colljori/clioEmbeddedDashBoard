@@ -110,6 +110,14 @@ $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
 $(BUILD_DIR):
 	mkdir -p $@
 
+
+#######################################
+# create tmux session appropriate for
+# the project
+#######################################
+tmux:
+	./restore_tmux_session.sh
+
 #######################################
 # clean up
 #######################################
@@ -134,6 +142,6 @@ flash: $(BUILD_DIR)/$(TARGET).hex
 #######################################
 -include $(shell mkdir .dep 2>/dev/null) $(wildcard .dep/*)
 
-.PHONY: clean all
+.PHONY: clean all tmux
 
 # *** EOF ***
