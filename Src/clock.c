@@ -47,6 +47,8 @@ void SystemClockConfig(void){
   MODIFY_REG(RCC->CFGR,RCC_CFGR_HPRE_Msk, RCC_CFGR_HPRE_DIV1);
   /* Set APB1 prescaller to 4 to not get over45MHz on this bus (42MHz) */
   MODIFY_REG(RCC->CFGR,RCC_CFGR_PPRE1_Msk, RCC_CFGR_PPRE1_DIV4);
+  /* Set the timer clock frequencies to twice to the frequency of the APB domain */
+  MODIFY_REG(RCC->DCKCFGR,RCC_DCKCFGR_TIMPRE_Msk, 0);
   /* PLL configuration for full speed without overrun, 168MHz
      PLL output frequency = input frequency * N / (P*M) */
   MODIFY_REG(RCC->PLLCFGR,RCC_PLLCFGR_PLLM_Msk, 8     << RCC_PLLCFGR_PLLM_Pos);

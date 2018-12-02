@@ -26,6 +26,7 @@
 #include "it.h"
 #include "clock.h"
 #include "util.h"
+#include "timer.h"
 /* Externs -------------------------------------------------------------------*/
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -40,6 +41,7 @@
 * -------------------------------------------------------------------------- */
 int main(void)
 {
+  static int i=0;
   SystemClockConfig();
   VcomInit();
 
@@ -54,7 +56,18 @@ int main(void)
   PRINTF("~ Boot success\n\r");
   PRINTF("~ System clock started (%ldHz)\n\r",SystemCoreClock);
 
-  while(1);
+  Timer_Init();
+
+  PRINTF("Timer initialized\n\r");
+
+  while(1){
+    while((READ_REG(TIM5->SR) & TIM_SR_UIF_Msk) == RESET);
+    CLEAR_BIT(TIM5->SR,TIM_SR_UIF);
+    if(++i==2000){
+    PRINTF("UIF event %d\n\r",i);
+    i=0;
+    }
+  }
 }
 
 
