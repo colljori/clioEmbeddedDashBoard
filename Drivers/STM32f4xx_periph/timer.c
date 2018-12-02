@@ -18,6 +18,10 @@
 */
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdio.h>
+#include "stm32f4xx.h"
+
+#include "timer.h"
 /* Externs -------------------------------------------------------------------*/
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -33,6 +37,22 @@
  * \param [out]         None
  * -------------------------------------------------------------------------- */
 void Timer_Init(void){
+  __attribute__((unused)) __IO uint32_t tmpreg = 0x00U;
+  //////////////////////ENABLE CLOCK///////////////
+  /* Activate clock for TIMER 5 on APB1 */
+  SET_BIT(RCC->APB1ENR, RCC_APB1ENR_TIM5EN);
+  /* Delay after an RCC peripheral clock enabling */
+  tmpreg = READ_BIT(RCC->APB1ENR, RCC_APB1ENR_TIM5EN);
+  //////////////////////TIM5 CR1 ///////////////
+  // divide the prescaler clock by 4. so finnally PSC 42MHz * 2 / 4 : 84MHz
+  // cf clock configuration and TIMPRE value in RCC reg
+  MODIFY_REG(TIM5->CR1, TIM_CR1_CKD_Msk,TIM_CR1_CKD_1);
+  // prescaler value to 84 so timer clock at 1MHz
+  MODIFY_REG(TIM5->PSC, TIM_PSC_PSC_Msk,84);
+  // auto reload value, 500 so 1MHz / 500 = 2000Hz
+  MODIFY_REG(TIM5->ARR, TIM_ARR_ARR_Msk,500);
+  // enable counter
+  MODIFY_REG(TIM5->CR1, TIM_CR1_CEN_Msk,TIM_CR1_CEN);
 }
 
 
