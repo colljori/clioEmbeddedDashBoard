@@ -26,6 +26,7 @@ BUILD_DIR = build
 ######################################
 C_SOURCES = \
 	$(wildcard Src/*.c) \
+	$(wildcard Drivers/STM32f4xx_periph/*.c) \
 	Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c
 ASM_SOURCES = \
   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc/startup_stm32f446xx.s
@@ -52,6 +53,7 @@ C_DEFS = -D__weak="__attribute__((weak))" -D__packed="__attribute__((__packed__)
 AS_INCLUDES =
 C_INCLUDES += -IInc
 C_INCLUDES += -IDrivers/CMSIS/Include
+C_INCLUDES += -IDrivers/STM32f4xx_periph/Include
 C_INCLUDES += -IDrivers/CMSIS/Device/ST/STM32F4xx/Include
 # compile gcc flags
 ASFLAGS = -mthumb -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
