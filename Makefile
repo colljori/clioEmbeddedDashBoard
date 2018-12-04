@@ -113,6 +113,13 @@ clean:
 	-rm -fR .dep $(BUILD_DIR)
 
 #######################################
+# debug target
+#######################################
+debug: flash
+	st-util -p 4242 &
+	arm-none-eabi-gdb --se=build/ClioDashBoard-STM32.elf --eval-command='tar rem localhost:4242'
+
+#######################################
 # flash target
 #######################################
 flash: $(BUILD_DIR)/$(TARGET).hex
