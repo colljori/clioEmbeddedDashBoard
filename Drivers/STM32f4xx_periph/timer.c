@@ -51,6 +51,12 @@ void Timer_Init(void){
   MODIFY_REG(TIM5->PSC, TIM_PSC_PSC_Msk,84);
   // auto reload value, 500 so 1MHz / 500 = 2000Hz
   MODIFY_REG(TIM5->ARR, TIM_ARR_ARR_Msk,500);
+  // enable interrupt on UIF flag, so when counter restart to ARR
+  SET_BIT(TIM5->DIER, TIM_DIER_UIE);
+  // enable interrupt of timer 5
+  NVIC_EnableIRQ(TIM5_IRQn);
+  // set Priority for Systick Interrupt
+  NVIC_SetPriority (TIM5_IRQn, (1UL << __NVIC_PRIO_BITS) - 2UL);
   // enable counter
   MODIFY_REG(TIM5->CR1, TIM_CR1_CEN_Msk,TIM_CR1_CEN);
 }

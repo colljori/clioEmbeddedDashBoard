@@ -20,9 +20,11 @@
 #ifndef __IT_H
 #define __IT_H
 
-
+#include <stdbool.h>
 /* Exported defines ----------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
+bool timer5_Notified;
+
 /* Exported functions --------------------------------------------------------*/
 void SysTick_Handler(void);
 
