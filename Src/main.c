@@ -61,12 +61,6 @@ int main(void)
   PRINTF("Timer initialized\n\r");
 
   while(1){
-    while((READ_REG(TIM5->SR) & TIM_SR_UIF_Msk) == RESET);
-    CLEAR_BIT(TIM5->SR,TIM_SR_UIF);
-    if(++i==2000){
-    PRINTF("UIF event %d\n\r",i);
-    i=0;
-    }
   }
 }
 
