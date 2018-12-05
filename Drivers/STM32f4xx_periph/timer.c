@@ -17,19 +17,10 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-
-
 /* Includes ------------------------------------------------------------------*/
-/* System */
-#include <stdlib.h>
+#include <stdio.h>
 #include "stm32f4xx.h"
-/* External peripherals */
-#include "ILI9341.h"
-/* Utilities */
-#include "time.h"
-#include "it.h"
-#include "clock.h"
-#include "util.h"
+
 #include "timer.h"
 /* Externs -------------------------------------------------------------------*/
 /* Private typedef -----------------------------------------------------------*/
@@ -37,33 +28,37 @@
 /* Private variable ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/
+
+
 /* --------------------------------------------------------------------------
-* \brief main function of the project
-*
-*  it's been call after startup by startup_stm32f446xx
-* -------------------------------------------------------------------------- */
-int main(void)
-{
-  SystemClockConfig();
-  VcomInit();
-
-  //Clear screen and put cursor to home position
-  PRINTF("'\033[2J");
-  PRINTF("\033[H\n");
-
-  PRINTF("{{}}#######################{{}}\n\r");
-  PRINTF("    CLIO EXTENDED DASHBOARD\n\r");
-  PRINTF("{{}}#######################{{}}\n\r\n");
-
-  PRINTF("~ Boot success\n\r");
-  PRINTF("~ System clock started (%ldHz)\n\r",SystemCoreClock);
-
-  PRINTF("~ Start ILI9342 initialization...\n\r",SystemCoreClock);
-  ILI9431_Init();
-  PRINTF("~ Done\n\r");
-
-  while(1){
-  }
+ * \brief init TIMER 9
+ * \param [in]          None
+ * \param [out]         None
+ * -------------------------------------------------------------------------- */
+void Timer_Init(void){
+  __attribute__((unused)) __IO uint32_t tmpreg = 0x00U;
+  //////////////////////ENABLE CLOCK///////////////
+  /* Activate clock for TIMER 5 on APB1 */
+  SET_BIT(RCC->APB1ENR, RCC_APB1ENR_TIM5EN);
+  /* Delay after an RCC peripheral clock enabling */
+  tmpreg = READ_BIT(RCC->APB1ENR, RCC_APB1ENR_TIM5EN);
+  //////////////////////TIM5 CR1 ///////////////
+  // divide the prescaler clock by 4. so finnally PSC 42MHz * 2 / 4 : 84MHz
+  // cf clock configuration and TIMPRE value in RCC reg
+  MODIFY_REG(TIM5->CR1, TIM_CR1_CKD_Msk,TIM_CR1_CKD_1);
+  // prescaler value to 84 so timer clock at 1MHz
+  MODIFY_REG(TIM5->PSC, TIM_PSC_PSC_Msk,84);
+  // auto reload value, 500 so 1MHz / 500 = 2000Hz
+  MODIFY_REG(TIM5->ARR, TIM_ARR_ARR_Msk,500);
+  // enable interrupt on UIF flag, so when counter restart to ARR
+  SET_BIT(TIM5->DIER, TIM_DIER_UIE);
+  // enable interrupt of timer 5
+  NVIC_EnableIRQ(TIM5_IRQn);
+  // set Priority for Systick Interrupt
+  NVIC_SetPriority (TIM5_IRQn, (1UL << __NVIC_PRIO_BITS) - 2UL);
+  // enable counter
+  MODIFY_REG(TIM5->CR1, TIM_CR1_CEN_Msk,TIM_CR1_CEN);
 }
 
 

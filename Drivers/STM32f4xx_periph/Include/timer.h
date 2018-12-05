@@ -17,18 +17,16 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef __IT_H
-#define __IT_H
+#ifndef __TIMER_H__
+#define __TIMER_H__
 
-#include <stdbool.h>
+
 /* Exported defines ----------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
-bool timer5_Notified;
-
 /* Exported functions --------------------------------------------------------*/
-void SysTick_Handler(void);
+void Timer_Init(void);
 
 
-#endif /* __IT_H */
+#endif /* __TIMER_H__ */
 
 /* END OF FILE / [COLLJORI] --------------------------------------------------*/
