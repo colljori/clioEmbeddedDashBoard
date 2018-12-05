@@ -20,19 +20,23 @@
 
 
 /* Includes ------------------------------------------------------------------*/
+/* System */
 #include <stdlib.h>
 #include "stm32f4xx.h"
+/* External peripherals */
+#include "ILI9341.h"
+/* Utilities */
 #include "time.h"
 #include "it.h"
 #include "clock.h"
 #include "util.h"
+
 /* Externs -------------------------------------------------------------------*/
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private variable ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-
 /* --------------------------------------------------------------------------
 * \brief main function of the project
 *
@@ -54,9 +58,13 @@ int main(void)
   PRINTF("~ Boot success\n\r");
   PRINTF("~ System clock started (%ldHz)\n\r",SystemCoreClock);
 
-  while(1);
-}
+  PRINTF("~ Start ILI9342 initialization...\n\r",SystemCoreClock);
+  ILI9431_Init();
+  PRINTF("~ Done\n\r");
 
+  while(1){
+  }
+}
 
 /* Private functions ---------------------------------------------------------*/
 
