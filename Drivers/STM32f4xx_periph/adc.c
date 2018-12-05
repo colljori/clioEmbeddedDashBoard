@@ -17,55 +17,52 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-
-
 /* Includes ------------------------------------------------------------------*/
-/* System */
-#include <stdlib.h>
+#include <stdio.h>
 #include "stm32f4xx.h"
-/* External peripherals */
-#include "ILI9341.h"
-/* Internal peripherals */
+
 #include "adc.h"
-#include "timer.h"
-/* Utilities */
-#include "time.h"
-#include "it.h"
-#include "clock.h"
-#include "util.h"
 /* Externs -------------------------------------------------------------------*/
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private variable ----------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/
+
 /* --------------------------------------------------------------------------
-* \brief main function of the project
-*
-*  it's been call after startup by startup_stm32f446xx
-* -------------------------------------------------------------------------- */
-int main(void)
-{
-  SystemClockConfig();
-  VcomInit();
-
-  //Clear screen and put cursor to home position
-  PRINTF("'\033[2J");
-  PRINTF("\033[H\n");
-
-  PRINTF("{{}}#######################{{}}\n\r");
-  PRINTF("    CLIO EXTENDED DASHBOARD\n\r");
-  PRINTF("{{}}#######################{{}}\n\r\n");
-
-  PRINTF("~ Boot success\n\r");
-  PRINTF("~ System clock started (%ldHz)\n\r",SystemCoreClock);
-
-  PRINTF("~ Start ILI9342 initialization...\n\r",SystemCoreClock);
-  ILI9431_Init();
-  PRINTF("~ Done\n\r");
-
-  while(1){
-  }
+ * \brief
+ * \param [in]          None
+ * \param [out]         None
+ * -------------------------------------------------------------------------- */
+void Adc_Init(void){
+  __attribute__((unused)) __IO uint32_t tmpreg = 0x00U;
+  //////////////////////ENABLE CLOCK///////////////
+  /* Activate clock for GPIOB on AHB1 */
+  SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOBEN);
+  /* Delay after an RCC peripheral clock enabling */
+  tmpreg = READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOBEN);
+  /* Activate clock for ADC1 on APB2 */
+  SET_BIT(RCC->APB2ENR, RCC_APB2ENR_ADC1EN);
+  /* Delay after an RCC peripheral clock enabling */
+  tmpreg = READ_BIT(RCC->APB2ENR, RCC_APB2ENR_ADC1EN);
+  //////////////////////CONF OUTPUT///////////////
+  // GPIOB 0(ADC12_IN8) in analog mode
+  MODIFY_REG(GPIOB->MODER,
+    GPIO_MODER_MODE0_Msk,
+    GPIO_MODER_MODE0_1 |
+    GPIO_MODER_MODE0_0);
+  //////////////////////ADC REG ///////////////////
+  // adc on
+  SET_BIT(ADC1->CR2, ADC_CR2_ADON);
+  // continious conversion
+  SET_BIT(ADC1->CR2, ADC_CR2_CONT);
+  // ajust sampling time, here 15 cycle to filter a bit and have good reaction time
+  MODIFY_REG(ADC1->SMPR1, ADC_SMPR1_SMP10_Msk, ADC_SMPR1_SMP10_0);
+  // regular channel sequence description, only one channel read (channel 8 on PB0 ADC12_IN8)
+  MODIFY_REG(ADC1->SQR3, ADC_SQR3_SQ1_Msk , ADC_SQR3_SQ1_3);
+  // adc start conversion
+  SET_BIT(ADC1->CR2, ADC_CR2_SWSTART);
 }
 
 
