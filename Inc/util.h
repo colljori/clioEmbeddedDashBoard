@@ -20,11 +20,15 @@
 #ifndef __UTIL_H
 #define __UTIL_H
 
+#include <stdint.h>
 /* Exported defines ----------------------------------------------------------*/
 #define DBG_PRINTF(...) DbgPrint(__FILE__,__LINE__,__PRETTY_FUNCTION__,__VA_ARGS__)
 #define PRINTF(...) LogPrint(__VA_ARGS__)
 /* Exported types ------------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
+void      Fir_Init(int nb_sample);
+uint32_t  Fir_AddValue(uint32_t new_value);
+
 void VcomInit(void);
 
 void DbgPrint(const char * file_name,
