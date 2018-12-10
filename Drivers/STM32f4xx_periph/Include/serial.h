@@ -24,6 +24,8 @@
 /* Exported defines ----------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
+void Usart2_Init(void);
+void Usart2_Send(char * buffer);
 
 
 #endif /* __SERIAL_H__ */
