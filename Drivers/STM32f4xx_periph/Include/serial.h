@@ -27,6 +27,9 @@
 void Usart2_Init(void);
 void Usart2_Send(char * buffer);
 
+void Usart1_Init(void);
+void Usart1_Send(char * buffer);
+
 
 #endif /* __SERIAL_H__ */
 
