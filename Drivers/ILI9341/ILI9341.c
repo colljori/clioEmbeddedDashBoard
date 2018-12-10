@@ -35,8 +35,8 @@
 #define ILI9341_DC_PIN        GPIO_ODR_OD8
 #define ILI9341_DC_PORT       GPIOA
 
-#define ILI9341_RESET_PIN     GPIO_ODR_OD9
-#define ILI9341_RESET_PORT    GPIOA
+#define ILI9341_RESET_PIN     GPIO_ODR_OD10
+#define ILI9341_RESET_PORT    GPIOB
 
 #define ILI9341_CS_PIN        GPIO_ODR_OD6
 #define ILI9341_CS_PORT       GPIOB
@@ -155,8 +155,8 @@ void ILI9431_Init(void){
   MODIFY_REG(GPIOA->MODER, GPIO_MODER_MODE8_Msk,
                            GPIO_MODER_MODE8_0);
   // GPIOA 9(RESET) in output mode
-  MODIFY_REG(GPIOA->MODER, GPIO_MODER_MODE9_Msk,
-                           GPIO_MODER_MODE9_0);
+  MODIFY_REG(GPIOB->MODER, GPIO_MODER_MODE10_Msk,
+                           GPIO_MODER_MODE10_0);
   //////////////////////CONF SPI/...//////////////
   // Init the SPI for communication with ILI9341
   Spi_Init();
