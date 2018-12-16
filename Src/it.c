@@ -38,6 +38,7 @@
  * -------------------------------------------------------------------------- */
  void SysTick_Handler(void)
  {
+   systick_Notified = true;
    ToggleLed2();
  }
 

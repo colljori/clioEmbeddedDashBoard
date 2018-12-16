@@ -26,6 +26,7 @@
 /* Exported types ------------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
 void Delay(uint32_t ms);
+void WaitNSystick(uint32_t);
 
 #endif /* __TIME_H */
 

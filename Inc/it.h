@@ -24,6 +24,7 @@
 /* Exported defines ----------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
 bool timer5_Notified;
+bool systick_Notified;
 
 /* Exported functions --------------------------------------------------------*/
 void SysTick_Handler(void);
