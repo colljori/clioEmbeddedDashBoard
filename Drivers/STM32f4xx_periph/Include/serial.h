@@ -25,10 +25,9 @@
 /* Exported types ------------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
 void Usart2_Init(void);
-void Usart2_Send(char * buffer);
-
 void Usart1_Init(void);
-void Usart1_Send(char * buffer);
+
+void Usart_Send(USART_TypeDef*, char*);
 
 
 #endif /* __SERIAL_H__ */

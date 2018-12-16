@@ -240,7 +240,7 @@ void DbgPrint( const char * file_name,
  * \param [out]         None
  * -------------------------------------------------------------------------- */
 void VcomSend(char * buffer){
-  Usart2_Send(buffer);
+  Usart_Send(USART2, buffer);
 }
 
 

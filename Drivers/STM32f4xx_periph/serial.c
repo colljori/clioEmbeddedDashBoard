@@ -63,19 +63,6 @@ void Usart2_Init(void){
 
 
 /* --------------------------------------------------------------------------
- * \brief               Send a simple char to the serial line of usart 2
- * \param [in]          None
- * \param [out]         None
- * -------------------------------------------------------------------------- */
-void Usart2_Send(char * buffer){
-  for(int i=0; buffer[i]!='\0'; i++){
-    WRITE_REG(USART2->DR, buffer[i]);
-    while(READ_BIT(USART2->SR,USART_SR_TXE) == RESET);
-  }
-}
-
-
-/* --------------------------------------------------------------------------
  * \brief               Init the usart 1 peripheral, at 921600 baud.
  *                      this serial link is actually use for KWP com
  * \param [in]          None
@@ -115,10 +102,10 @@ void Usart1_Init(void){
  * \param [in]          None
  * \param [out]         None
  * -------------------------------------------------------------------------- */
-void Usart1_Send(char * buffer){
+void Usart_Send(USART_TypeDef * usart, char * buffer){
   for(int i=0; buffer[i]!='\0'; i++){
-    WRITE_REG(USART1->DR, buffer[i]);
-    while(READ_BIT(USART1->SR,USART_SR_TXE) == RESET);
+    WRITE_REG(usart->DR, buffer[i]);
+    while(READ_BIT(usart->SR,USART_SR_TXE) == RESET);
   }
 }
 
