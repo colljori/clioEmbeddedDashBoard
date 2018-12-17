@@ -31,6 +31,7 @@
 /* Utilities */
 #include "time.h"
 #include "it.h"
+#include "kwp.h"
 #include "clock.h"
 #include "util.h"
 /* Externs -------------------------------------------------------------------*/
@@ -64,7 +65,15 @@ int main(void)
   ILI9431_Init();
   PRINTF("~ Done\n\r");
 
+  // GPIOA 10 in input mode
+  CLEAR_BIT(GPIOA->MODER, GPIO_MODER_MODE10_0 | GPIO_MODER_MODE10_1);
+
+  PRINTF("~ Attempting iso 14230 KWP 5 bauds init...\n\r");
+  Kwp_SlowInit();
+  PRINTF("~ Done, read input line...\n\r");
+
   while(1){
+    PRINTF("rx: %d\n\r",READ_BIT(GPIOA->IDR,GPIO_IDR_ID10));
   }
 }
 

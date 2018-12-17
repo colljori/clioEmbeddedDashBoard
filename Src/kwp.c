@@ -40,32 +40,36 @@ void Kwp_SlowInit(void){
   SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOAEN);
   // Delay after an RCC peripheral clock enabling
   tmpreg = READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOAEN);
-  // GPIOA 9 and 10 in output mode
-  SET_BIT(GPIOA->MODER,GPIO_MODER_MODE9_0 | GPIO_MODER_MODE10_0);
-  //.................................... send start bit
+  // GPIOA 9 in output mode
+  SET_BIT(GPIOA->MODER,GPIO_MODER_MODE9_0);
+  // idle state=low. as this is at base of bipolar transistor
   CLEAR_BIT(GPIOA->ODR, GPIO_ODR_OD9);
+  // just to be sure
+  void Delay(1000);
+  //.................................... send start bit
+  SET_BIT(GPIOA->ODR, GPIO_ODR_OD9);
   //systick interrupt happen every 50ms, so 5 baud is 200ms per bit so 4 systick for start
   WaitNSystick(4);
 
   //.................................... send 0x33
-  SET_BIT(GPIOA->ODR, GPIO_ODR_OD9);
+  CLEAR_BIT(GPIOA->ODR, GPIO_ODR_OD9);
   //systick interrupt happen every 50ms, so 5 baud is 200ms per bit so 8 systick for 0b11
   WaitNSystick(8);
 
-  CLEAR_BIT(GPIOA->ODR, GPIO_ODR_OD9);
+  SET_BIT(GPIOA->ODR, GPIO_ODR_OD9);
   //systick interrupt happen every 50ms, so 5 baud is 200ms per bit so 8 systick for 0b00
   WaitNSystick(8);
 
-  SET_BIT(GPIOA->ODR, GPIO_ODR_OD9);
+  CLEAR_BIT(GPIOA->ODR, GPIO_ODR_OD9);
   //systick interrupt happen every 50ms, so 5 baud is 200ms per bit so 8 systick for 0b11
   WaitNSystick(8);
 
-  CLEAR_BIT(GPIOA->ODR, GPIO_ODR_OD9);
+  SET_BIT(GPIOA->ODR, GPIO_ODR_OD9);
   //systick interrupt happen every 50ms, so 5 baud is 200ms per bit so 8 systick for 0b00
   WaitNSystick(8);
 
   //.................................... send stop  bit
-  SET_BIT(GPIOA->ODR, GPIO_ODR_OD9);
+  CLEAR_BIT(GPIOA->ODR, GPIO_ODR_OD9);
   WaitNSystick(4);
 }
 

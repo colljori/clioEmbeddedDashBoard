@@ -40,7 +40,7 @@
 * -------------------------------------------------------------------------- */
 void WaitNSystick(uint32_t n)
 {
-  for(int i = 0; i<n ; i++){
+  for(int i = 0; i<n+1 ; i++){
     //wait for synchro with systick
     while(!systick_Notified);
     systick_Notified = false;
